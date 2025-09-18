@@ -18,7 +18,7 @@ resource "azurerm_resource_group" "main" {
   tags= var.common_tags
 }
 
-resource "azurerm_app_service_plan" "api_plan" {
+resource "azurerm_service_plan" "api_plan" {
   name = "asp-${var.project}-api-${var.environment}"
   location = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
