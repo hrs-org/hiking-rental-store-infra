@@ -22,14 +22,8 @@ resource "azurerm_service_plan" "api_plan" {
   name = "asp-${var.project}-api-${var.environment}"
   location = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
-  kind = "Linux"
-  reserved = true
-
-  sku {
-    tier = "Basic"
-    size = "B1"
-  }
-
+  os_type = "Linux"
+  sku_name = "B1"
   tags = var.common_tags
 }
 
@@ -37,7 +31,7 @@ resource "azurerm_linux_web_app" "api" {
   name = "web-${var.project}-api-${var.environment}"
   location = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
-  service_plan_id = azurerm_app_service_plan.api_plan.id
+  service_plan_id = azurerm_service_plan.api_plan.id
   site_config {
     always_on = true
     ftps_state = "Disabled"
