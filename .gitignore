@@ -1,0 +1,18 @@
+# Terraform state and cache
+terraform.tfstate
+terraform.tfstate.*
+.terraform/
+.terraform.lock.hcl
+crash.log
+
+# Sensitive variable files
+*.tfvars
+*.tfvars.json
+
+# Editor and OS files
+*.swp
+*.swo
+*.bak
+.DS_Store
+.idea/
+.vscode/
