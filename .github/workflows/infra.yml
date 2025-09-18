@@ -25,13 +25,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+
       - name: Terraform Refresh
         env:
           ARM_CLIENT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientId }}
           ARM_CLIENT_SECRET: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientSecret }}
           ARM_SUBSCRIPTION_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).subscriptionId }}
           ARM_TENANT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).tenantId }}
-        run: terraform refresh\
+        run: terraform refresh \
           -var-file=environments/${{ github.event.inputs.environment }}.tfvars \
           -var "mysql_admin_user=${{ secrets.TF_MYSQL_ADMIN_USER }}" \
           -var "mysql_admin_password=${{ secrets.TF_MYSQL_ADMIN_PASSWORD }}" \
