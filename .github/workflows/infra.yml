@@ -45,7 +45,13 @@ jobs:
           ARM_CLIENT_SECRET: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientSecret }}
           ARM_SUBSCRIPTION_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).subscriptionId }}
           ARM_TENANT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).tenantId }}
-        run: terraform import azurerm_resource_group.main /subscriptions/5c9469e7-791b-4904-b189-abd1ac5ef787/resourceGroups/rg-hrs-uat
+        run:
+          terraform import azurerm_resource_group.main /subscriptions/5c9469e7-791b-4904-b189-abd1ac5ef787/resourceGroups/rg-hrs-uat \
+          -var-file=environments/${{ github.event.inputs.environment }}.tfvars \
+          -var "mysql_admin_user=${{ secrets.TF_MYSQL_ADMIN_USER }}" \
+          -var "mysql_admin_password=${{ secrets.TF_MYSQL_ADMIN_PASSWORD }}" \
+          -var "mysql_connection_string=${{ secrets.TF_MYSQL_CONNECTION_STRING }}" \
+          -var "jwt_secret=${{ secrets.TF_JWT_SECRET }}"
 
       - name: Terraform Plan
         env:
