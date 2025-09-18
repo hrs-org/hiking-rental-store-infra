@@ -76,7 +76,7 @@ resource "azurerm_mysql_flexible_database" "db_main" {
 resource "azurerm_static_site" "web" {
   name = "st-${var.project}-web-${var.environment}"
   resource_group_name = azurerm_resource_group.main.name
-  location = azurerm_resource_group.main.location
+  location = "eastasia"
   sku_tier = "Free"
   sku_size = "Free"
   tags = var.common_tags
