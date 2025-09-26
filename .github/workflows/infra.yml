@@ -50,7 +50,8 @@ jobs:
             -var "mysql_admin_user=${{ secrets.TF_MYSQL_ADMIN_USER }}" \
             -var "mysql_admin_password=${{ secrets.TF_MYSQL_ADMIN_PASSWORD }}" \
             -var "mysql_connection_string=${{ secrets.TF_MYSQL_CONNECTION_STRING }}" \
-            -var "jwt_secret=${{ secrets.TF_JWT_SECRET }}"
+            -var "jwt_secret=${{ secrets.TF_JWT_SECRET }}" \
+            -var "allowed_origins=${{ secrets.TF_ALLOWED_ORIGINS }}"
 
       - name: Terraform Apply
         env:
@@ -64,7 +65,8 @@ jobs:
             -var "mysql_admin_user=${{ secrets.TF_MYSQL_ADMIN_USER }}" \
             -var "mysql_admin_password=${{ secrets.TF_MYSQL_ADMIN_PASSWORD }}" \
             -var "mysql_connection_string=${{ secrets.TF_MYSQL_CONNECTION_STRING }}" \
-            -var "jwt_secret=${{ secrets.TF_JWT_SECRET }}"
+            -var "jwt_secret=${{ secrets.TF_JWT_SECRET }}" \
+            -var "allowed_origins=${{ secrets.TF_ALLOWED_ORIGINS }}"
 
       - name: Share outputs with app repos
         run: |

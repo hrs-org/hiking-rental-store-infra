@@ -44,8 +44,9 @@ resource "azurerm_linux_web_app" "api" {
   }
   app_settings = {
     DOTNET_ENVIRONMENT = var.environment
-    MYSQL_CONN = var.mysql_connection_string
-    JWT_SECRET = var.jwt_secret
+    AllowedOrigins = var.allowed_origins
+    ConnectionStrings__DefaultConnection = var.mysql_connection_string
+    Jwt__Key = var.jwt_secret
   }
   tags = var.common_tags
 }
@@ -71,7 +72,7 @@ resource "azurerm_mysql_flexible_database" "db_main" {
   resource_group_name = azurerm_resource_group.main.name
   server_name = azurerm_mysql_flexible_server.db.name
   charset = "utf8mb4"
-  collation = "utf8mb4_unicode_ci"
+  collation = "utf8mb4_0900_ai_ci"
 }
 
 resource "azurerm_static_site" "web" {
