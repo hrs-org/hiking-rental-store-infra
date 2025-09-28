@@ -18,6 +18,22 @@ resource "azurerm_subnet" "internal" {
   resource_group_name = azurerm_resource_group.main.name
   virtual_network_name = azurerm_virtual_network.main.name
   address_prefixes = ["10.0.2.0/24"]
+
+  delegation {
+    name = "appservice-delegation"
+    service_delegation {
+      name = "Microsoft.Web/serverFarms"
+      actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
+    }
+  }
+
+  delegation {
+    name = "mysql-delegation"
+    service_delegation {
+      name = "Microsoft.DBforMySQL/flexibleServers"
+      actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
+    }
+  }
 }
 
 resource "azurerm_subnet" "firewall" {
@@ -61,4 +77,15 @@ resource "azurerm_subnet_route_table_association" "dmz" {
 resource "azurerm_subnet_route_table_association" "internal" {
   subnet_id = azurerm_subnet.internal.id
   route_table_id = azurerm_route_table.internal.id
+}
+
+resource "azurerm_network_security_group" "dmz" {
+  name = "nsg-dmz"
+  location = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+}
+
+resource "azurerm_subnet_network_security_group_association" "dmz" {
+  subnet_id = azurerm_subnet.dmz.id
+  network_security_group_id = azurerm_network_security_group.dmz.id
 }
