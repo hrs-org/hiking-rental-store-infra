@@ -74,7 +74,7 @@ resource "azurerm_mysql_flexible_database" "db_main" {
   collation = "utf8mb4_0900_ai_ci"
 }
 
-resource "azurerm_static_site" "web" {
+resource "azurerm_static_web_app" "web" {
   name = "st-${var.project}-web-${var.environment}"
   resource_group_name = azurerm_resource_group.main.name
   location = "eastasia"

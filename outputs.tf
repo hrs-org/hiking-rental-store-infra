@@ -11,5 +11,5 @@ output "mysql_fqdn" {
 }
 
 output "static_web_app_url" {
-  value = azurerm_static_site.web.default_host_name
+  value = azurerm_static_web_app.web.default_host_name
 }
