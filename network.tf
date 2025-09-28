@@ -13,8 +13,8 @@ resource "azurerm_subnet" "dmz" {
   address_prefixes = ["10.0.1.0/24"]
 }
 
-resource "azurerm_subnet" "internal" {
-  name = "subnet-internal"
+resource "azurerm_subnet" "internal_app" {
+  name = "subnet-internal-app"
   resource_group_name = azurerm_resource_group.main.name
   virtual_network_name = azurerm_virtual_network.main.name
   address_prefixes = ["10.0.2.0/24"]
@@ -26,6 +26,13 @@ resource "azurerm_subnet" "internal" {
       actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
     }
   }
+}
+
+resource "azurerm_subnet" "internal_db" {
+  name = "subnet-internal-db"
+  resource_group_name = azurerm_resource_group.main.name
+  virtual_network_name = azurerm_virtual_network.main.name
+  address_prefixes = ["10.0.4.0/24"]
 
   delegation {
     name = "mysql-delegation"
