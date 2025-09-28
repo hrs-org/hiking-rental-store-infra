@@ -81,8 +81,13 @@ resource "azurerm_subnet_route_table_association" "dmz" {
   route_table_id = azurerm_route_table.dmz.id
 }
 
-resource "azurerm_subnet_route_table_association" "internal" {
-  subnet_id = azurerm_subnet.internal.id
+resource "azurerm_subnet_route_table_association" "internal_app" {
+  subnet_id = azurerm_subnet.internal_app.id
+  route_table_id = azurerm_route_table.internal.id
+}
+
+resource "azurerm_subnet_route_table_association" "internal_db" {
+  subnet_id = azurerm_subnet.internal_db.id
   route_table_id = azurerm_route_table.internal.id
 }
 

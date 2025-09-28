@@ -12,7 +12,7 @@ resource "azurerm_linux_web_app" "api" {
   location = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
   service_plan_id = azurerm_service_plan.api_plan.id
-  virtual_network_subnet_id = azurerm_subnet.internal.id
+  virtual_network_subnet_id = azurerm_subnet.internal_app.id
   https_only = true
   identity {
     type = "SystemAssigned"
@@ -54,7 +54,7 @@ resource "azurerm_mysql_flexible_server" "db" {
   resource_group_name = azurerm_resource_group.main.name
   location = azurerm_resource_group.main.location
   zone = "2"
-  delegated_subnet_id = azurerm_subnet.internal.id
+  delegated_subnet_id = azurerm_subnet.internal_db.id
   administrator_login = var.mysql_admin_user
   administrator_password = var.mysql_admin_password
   sku_name = "B_Standard_B1ms"
