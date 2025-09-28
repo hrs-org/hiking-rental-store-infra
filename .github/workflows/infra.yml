@@ -12,6 +12,10 @@ on:
           - uat
           - prod
 
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
   deploy:
     environment: ${{ github.event.inputs.environment }}
@@ -20,6 +24,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
@@ -41,7 +50,18 @@ jobs:
           ARM_CLIENT_SECRET: ${{ fromJson(secrets.AZURE_CREDENTIALS).clientSecret }}
           ARM_SUBSCRIPTION_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).subscriptionId }}
           ARM_TENANT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).tenantId }}
-        run: terraform plan -var-file=environments/${{ github.event.inputs.environment }}.tfvars
+        run: |
+          terraform plan -input=false \
+            -var-file=environments/${{ github.event.inputs.environment }}.tfvars \
+            -var "mysql_admin_user=${{ secrets.TF_MYSQL_ADMIN_USER }}" \
+            -var "mysql_admin_password=${{ secrets.TF_MYSQL_ADMIN_PASSWORD }}" \
+            -var "mysql_connection_string=${{ secrets.TF_MYSQL_CONNECTION_STRING }}" \
+            -var "jwt_secret=${{ secrets.TF_JWT_SECRET }}" \
+            -var "jwt_audience=${{ secrets.TF_JWT_AUDIENCE }}" \
+            -var "jwt_issuer=${{ secrets.TF_JWT_ISSUER }}" \
+            -var "allowed_origins=${{ secrets.TF_ALLOWED_ORIGINS }}" \
+            -var "application_insights_connection_string=${{ secrets.TF_APPLICATIONINSIGHTS_CONNECTION_STRING }}" \
+            -var "application_insights_instrumentation_key=${{ secrets.TF_APPINSIGHTS_INSTRUMENTATIONKEY }}"
 
       - name: Terraform Apply
         env:
@@ -50,17 +70,22 @@ jobs:
           ARM_SUBSCRIPTION_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).subscriptionId }}
           ARM_TENANT_ID: ${{ fromJson(secrets.AZURE_CREDENTIALS).tenantId }}
         run: |
-          terraform apply -auto-approve \
+          terraform apply -auto-approve -input=false \
             -var-file=environments/${{ github.event.inputs.environment }}.tfvars \
             -var "mysql_admin_user=${{ secrets.TF_MYSQL_ADMIN_USER }}" \
             -var "mysql_admin_password=${{ secrets.TF_MYSQL_ADMIN_PASSWORD }}" \
             -var "mysql_connection_string=${{ secrets.TF_MYSQL_CONNECTION_STRING }}" \
-            -var "jwt_secret=${{ secrets.TF_JWT_SECRET }}"
+            -var "jwt_secret=${{ secrets.TF_JWT_SECRET }}" \
+            -var "jwt_audience=${{ secrets.TF_JWT_AUDIENCE }}" \
+            -var "jwt_issuer=${{ secrets.TF_JWT_ISSUER }}" \
+            -var "allowed_origins=${{ secrets.TF_ALLOWED_ORIGINS }}" \
+            -var "application_insights_connection_string=${{ secrets.TF_APPLICATIONINSIGHTS_CONNECTION_STRING }}" \
+            -var "application_insights_instrumentation_key=${{ secrets.TF_APPINSIGHTS_INSTRUMENTATIONKEY }}"
 
       - name: Share outputs with app repos
+        env:
+          GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: |
           gh secret set API_URL --body "$(terraform output -raw api_url)" --repo hrs-org/hiking-rental-store-web
-          gh secret set MYSQL_FQDN --body "$(terraform output -raw mysql_fqdn)" --repo hrs-org/hiking-rental-store-api
-          gh secret set STATIC_WEB_APP_URL --body "$(terraform output -raw static_web_app_url)" --repo hrs-org/hiking-rental-store-web
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          gh secret set JWT_SECRET --body "${{ secrets.TF_JWT_SECRET }}" --repo hrs-org/hiking-rental-store-api
+          gh secret set TF_MYSQL_CONNECTION_STRING --body "${{ secrets.TF_MYSQL_CONNECTION_STRING }}" --repo hrs-org/hiking-rental-store-api
