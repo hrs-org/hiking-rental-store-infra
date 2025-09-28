@@ -57,6 +57,8 @@ jobs:
             -var "mysql_admin_password=${{ secrets.TF_MYSQL_ADMIN_PASSWORD }}" \
             -var "mysql_connection_string=${{ secrets.TF_MYSQL_CONNECTION_STRING }}" \
             -var "jwt_secret=${{ secrets.TF_JWT_SECRET }}" \
+            -var "jwt_audience=${{ secrets.TF_JWT_AUDIENCE }}" \
+            -var "jwt_issuer=${{ secrets.TF_JWT_ISSUER }}" \
             -var "allowed_origins=${{ secrets.TF_ALLOWED_ORIGINS }}" \
             -var "application_insights_connection_string=${{ secrets.TF_APPLICATIONINSIGHTS_CONNECTION_STRING }}" \
             -var "application_insights_instrumentation_key=${{ secrets.TF_APPINSIGHTS_INSTRUMENTATIONKEY }}"
@@ -74,6 +76,8 @@ jobs:
             -var "mysql_admin_password=${{ secrets.TF_MYSQL_ADMIN_PASSWORD }}" \
             -var "mysql_connection_string=${{ secrets.TF_MYSQL_CONNECTION_STRING }}" \
             -var "jwt_secret=${{ secrets.TF_JWT_SECRET }}" \
+            -var "jwt_audience=${{ secrets.TF_JWT_AUDIENCE }}" \
+            -var "jwt_issuer=${{ secrets.TF_JWT_ISSUER }}" \
             -var "allowed_origins=${{ secrets.TF_ALLOWED_ORIGINS }}" \
             -var "application_insights_connection_string=${{ secrets.TF_APPLICATIONINSIGHTS_CONNECTION_STRING }}" \
             -var "application_insights_instrumentation_key=${{ secrets.TF_APPINSIGHTS_INSTRUMENTATIONKEY }}"
