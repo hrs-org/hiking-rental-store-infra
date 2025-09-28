@@ -31,3 +31,5 @@ app_setting_names = [
   "XDT_MicrosoftApplicationInsights_NodeJS"
 ]
 connection_string_names = ["ConnectionStrings__DefaultConnection", "APPLICATIONINSIGHTS_CONNECTION_STRING"]
+publisher_name = "HRS UAT"
+publisher_email = "e1546606@u.nus.edu"

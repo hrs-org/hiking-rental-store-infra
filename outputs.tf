@@ -3,7 +3,7 @@ output "resource_group" {
 }
 
 output "api_url" {
-  value = azurerm_linux_web_app.api.default_hostname
+  value = azurerm_api_management.gateway.gateway_url
 }
 
 output "mysql_fqdn" {

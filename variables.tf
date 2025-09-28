@@ -159,3 +159,14 @@ variable "connection_string_names" {
   type = list(string)
   default = []
 }
+
+variable "publisher_name"{
+  description = "API Management publisher name"
+  type = string
+  default = "HRS"
+}
+
+variable "publisher_email"{
+  description = "API Management publisher email"
+  type = string
+}
