@@ -47,6 +47,25 @@ resource "azurerm_linux_web_app" "api" {
     AllowedOrigins = var.allowed_origins
     ConnectionStrings__DefaultConnection = var.mysql_connection_string
     Jwt__Key = var.jwt_secret
+    Jwt__Audience = var.jwt_audience
+    Jwt__Issuer = var.jwt_issuer
+    APPINSIGHTS_INSTRUMENTATIONKEY = var.application_insights_instrumentation_key
+    APPINSIGHTS_PROFILERFEATURE_VERSION = var.application_insights_profilerfeature_version
+    APPINSIGHTS_SNAPSHOTFEATURE_VERSION = var.application_insights_snapshotfeature_version
+    APPLICATIONINSIGHTS_CONFIGURATION_CONTENT = var.application_insights_configuration_content
+    APPLICATIONINSIGHTS_CONNECTION_STRING = var.application_insights_connection_string
+    ApplicationInsightsAgent_EXTENSION_VERSION = var.application_insights_agent_extension_version
+    DiagnosticServices_EXTENSION_VERSION = var.diagnostic_services_extension_version
+    InstrumentationEngine_EXTENSION_VERSION = var.instrumentation_engine_extension_version
+    SnapshotDebugger_EXTENSION_VERSION = var.snapshot_debugger_extension_version
+    XDT_MicrosoftApplicationInsights_BaseExtensions = var.xdt_microsoft_application_insights_base_extensions
+    XDT_MicrosoftApplicationInsights_Mode = var.xdt_microsoft_application_insights_mode
+    XDT_MicrosoftApplicationInsights_PreemptSdk = var.xdt_microsoft_application_insights_preempt_sdk
+  }
+
+  sticky_settings {
+    app_setting_names = var.app_setting_names
+    connection_string_names = var.connection_string_names
   }
   tags = var.common_tags
 }
