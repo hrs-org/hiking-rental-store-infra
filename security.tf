@@ -3,8 +3,8 @@
   location = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
 
-  sku_name            = "AZFW_VNet"
-  sku_tier            = "Standard"
+  sku_name = "AZFW_VNet"
+  sku_tier = "Standard"
 
   ip_configuration {
     name = "fw-ipconfig"
@@ -75,35 +75,27 @@ resource "azurerm_firewall_network_rule_collection" "allow_apim_to_azure_sql" {
   }
 }
 
-resource "azurerm_firewall_network_rule_collection" "allow_apim_management" {
-  name = "AllowAPIMManagement"
+resource "azurerm_firewall_network_rule_collection" "allow_apim_management_and_monitoring" {
+  name = "AllowAPIMManagementAndMonitoring"
   azure_firewall_name = azurerm_firewall.main.name
   resource_group_name = azurerm_resource_group.main.name
   priority = 400
   action = "Allow"
 
   rule {
-    name = "AllowManagementOutbound"
+    name = "AllowAPIMManagementOutbound"
     protocols = ["TCP"]
     source_addresses = [azurerm_subnet.dmz.address_prefixes[0]]
     destination_addresses = ["*"]
     destination_ports = ["3443"]
   }
-}
-
-resource "azurerm_firewall_network_rule_collection" "allow_apim_management_inbound" {
-  name = "AllowAPIMManagementInbound"
-  azure_firewall_name = azurerm_firewall.main.name
-  resource_group_name = azurerm_resource_group.main.name
-  priority = 500
-  action = "Allow"
 
   rule {
-    name = "AllowManagementInbound"
+    name = "AllowMonitoringOutbound"
     protocols = ["TCP"]
-    source_addresses = ["*"]
-    destination_addresses = [azurerm_subnet.dmz.address_prefixes[0]]
-    destination_ports = ["3443"]
+    source_addresses = [azurerm_subnet.dmz.address_prefixes[0]]
+    destination_addresses = ["*"]
+    destination_ports = ["443"]
   }
 }
 
