@@ -118,6 +118,17 @@ resource "azurerm_network_security_group" "dmz" {
     source_address_prefix = "*"
     destination_address_prefix = "AzureKeyVault"
   }
+  security_rule {
+    name = "AllowOutboundAzureSQL"
+    priority = 120
+    direction = "Outbound"
+    access = "Allow"
+    protocol = "Tcp"
+    source_port_range = "*"
+    destination_port_range = "1433"
+    source_address_prefix = "*"
+    destination_address_prefix = "Sql"
+  }
 }
 
 resource "azurerm_subnet_network_security_group_association" "dmz" {
