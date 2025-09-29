@@ -91,6 +91,22 @@ resource "azurerm_firewall_network_rule_collection" "allow_apim_management" {
   }
 }
 
+resource "azurerm_firewall_network_rule_collection" "allow_apim_management_inbound" {
+  name = "AllowAPIMManagementInbound"
+  azure_firewall_name = azurerm_firewall.main.name
+  resource_group_name = azurerm_resource_group.main.name
+  priority = 500
+  action = "Allow"
+
+  rule {
+    name = "AllowManagementInbound"
+    protocols = ["TCP"]
+    source_addresses = ["*"]
+    destination_addresses = [azurerm_subnet.dmz.address_prefixes[0]]
+    destination_ports = ["3443"]
+  }
+}
+
 resource "azurerm_security_center_subscription_pricing" "app_service_defender" {
   tier = "Standard"
   resource_type = "AppServices"
