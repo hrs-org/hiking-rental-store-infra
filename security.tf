@@ -75,6 +75,22 @@ resource "azurerm_firewall_network_rule_collection" "allow_apim_to_azure_sql" {
   }
 }
 
+resource "azurerm_firewall_network_rule_collection" "allow_apim_management" {
+  name = "AllowAPIMManagement"
+  azure_firewall_name = azurerm_firewall.main.name
+  resource_group_name = azurerm_resource_group.main.name
+  priority = 400
+  action = "Allow"
+
+  rule {
+    name = "AllowManagementOutbound"
+    protocols = ["TCP"]
+    source_addresses = [azurerm_subnet.dmz.address_prefixes[0]]
+    destination_addresses = ["*"]
+    destination_ports = ["3443"]
+  }
+}
+
 resource "azurerm_security_center_subscription_pricing" "app_service_defender" {
   tier = "Standard"
   resource_type = "AppServices"
