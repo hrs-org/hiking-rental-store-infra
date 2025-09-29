@@ -32,10 +32,7 @@ resource "azurerm_firewall_network_rule_collection" "allow_apim_to_api" {
     name = "AllowHTTPSFromDMZToInternal"
     protocols = ["TCP"]
     source_addresses = [azurerm_subnet.dmz.address_prefixes[0]]
-    destination_addresses = [
-      azurerm_subnet.internal_app.address_prefixes[0],
-      azurerm_subnet.internal_db.address_prefixes[0]
-    ]
+    destination_addresses = ["*"]
     destination_ports = ["443"]
   }
 }
