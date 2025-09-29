@@ -116,7 +116,7 @@ resource "azurerm_network_security_group" "dmz" {
     source_port_range = "*"
     destination_port_range = "443"
     source_address_prefix = "*"
-    destination_address_prefix = "KeyVault"
+    destination_address_prefix = "AzureKeyVault"
   }
 }
 
