@@ -140,6 +140,17 @@ resource "azurerm_network_security_group" "dmz" {
     source_address_prefix = "*"
     destination_address_prefix = "*"
   }
+  security_rule {
+    name = "AllowOutboundMonitoring"
+    priority = 140
+    direction = "Outbound"
+    access = "Allow"
+    protocol = "Tcp"
+    source_port_range = "*"
+    destination_port_range = "443"
+    source_address_prefix = "*"
+    destination_address_prefix = "AzureMonitor"
+  }
 }
 
 resource "azurerm_subnet_network_security_group_association" "dmz" {
