@@ -232,5 +232,5 @@ resource "azurerm_subnet_network_security_group_association" "internal_db" {
 
 resource "azurerm_app_service_virtual_network_swift_connection" "webapp_vnet_integration" {
   subnet_id = azurerm_subnet.internal_app.id
-  app_service_id = azurerm_app_service.webapp.id
+  app_service_id = azurerm_linux_web_app.api.id
 }
