@@ -113,6 +113,17 @@ resource "azurerm_network_security_group" "dmz" {
   location = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
   security_rule {
+    name = "AllowInboundAPIMManagementFromAny"
+    priority = 50
+    direction = "Inbound"
+    access = "Allow"
+    protocol = "Tcp"
+    source_port_range = "*"
+    destination_port_range = "3443"
+    source_address_prefix = "*"
+    destination_address_prefix = "VirtualNetwork"
+  }
+  security_rule {
     name = "AllowOutboundStorage"
     priority = 100
     direction = "Outbound"
@@ -222,6 +233,20 @@ resource "azurerm_network_security_group" "internal_db" {
     destination_port_range = "3306"
     destination_address_prefix = azurerm_subnet.internal_db.address_prefixes[0]
     source_port_range = "*"
+  }
+}
+
+resource "azurerm_firewall_application_rule_collection" "apim_management" {
+  name = "apim-management"
+  azure_firewall_name = azurerm_firewall.main.name
+  resource_group_name = azurerm_resource_group.main.name
+  priority = 100
+  action = "Allow"
+
+  rule {
+    name = "AllowAPIMManagement"
+    source_addresses = ["*"]
+    target_fqdns = ["*.management.azure-api.net"]
   }
 }
 
