@@ -103,7 +103,7 @@ resource "azurerm_api_management_api" "api" {
   api_management_name = azurerm_api_management.gateway.name
   revision = "1"
   display_name = "HRS API"
-  path = ""
+  path = "api"
   protocols = ["https"]
   import {
     content_format = "swagger-link-json"
