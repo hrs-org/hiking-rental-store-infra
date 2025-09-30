@@ -114,7 +114,7 @@ resource "azurerm_network_security_group" "dmz" {
   resource_group_name = azurerm_resource_group.main.name
   security_rule {
     name = "AllowInboundAPIMManagementFromAny"
-    priority = 50
+    priority = 100
     direction = "Inbound"
     access = "Allow"
     protocol = "Tcp"
@@ -125,7 +125,7 @@ resource "azurerm_network_security_group" "dmz" {
   }
   security_rule {
     name = "AllowOutboundStorage"
-    priority = 100
+    priority = 110
     direction = "Outbound"
     access = "Allow"
     protocol = "Tcp"
@@ -136,7 +136,7 @@ resource "azurerm_network_security_group" "dmz" {
   }
   security_rule {
     name = "AllowOutboundKeyVault"
-    priority = 110
+    priority = 120
     direction = "Outbound"
     access = "Allow"
     protocol = "Tcp"
@@ -147,7 +147,7 @@ resource "azurerm_network_security_group" "dmz" {
   }
   security_rule {
     name = "AllowOutboundAzureSQL"
-    priority = 120
+    priority = 130
     direction = "Outbound"
     access = "Allow"
     protocol = "Tcp"
@@ -158,7 +158,7 @@ resource "azurerm_network_security_group" "dmz" {
   }
   security_rule {
     name = "AllowOutboundMonitoring"
-    priority = 130
+    priority = 140
     direction = "Outbound"
     access = "Allow"
     protocol = "Tcp"
@@ -169,7 +169,7 @@ resource "azurerm_network_security_group" "dmz" {
   }
   security_rule {
     name = "AllowOutboundAPIMManagement"
-    priority = 140
+    priority = 150
     direction = "Outbound"
     access = "Allow"
     protocol = "Tcp"
