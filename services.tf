@@ -106,8 +106,8 @@ resource "azurerm_api_management_api" "api" {
   path = "api"
   protocols = ["https"]
   import {
-    content_format = "swagger-link-json"
-    content_value  = "https://web-hrs-api-uat.azurewebsites.net/swagger/v1/swagger.json"
+    content_format = "swagger-json"
+    content_value  = file("swagger/v1/swagger.json")
   }
 }
 

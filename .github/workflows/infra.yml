@@ -30,6 +30,17 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      - name: Fetch Swagger file
+        run: |
+          mkdir -p swagger/v1
+          curl -sSL https://web-hrs-api-uat.azurewebsites.net/swagger/v1/swagger.json -o swagger/v1/swagger.json
+
+      - name: Upload Swagger artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: swagger-json
+          path: swagger/v1/swagger.json
+
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
 
