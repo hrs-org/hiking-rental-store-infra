@@ -11,7 +11,14 @@ resource "azurerm_subnet" "dmz" {
   resource_group_name = azurerm_resource_group.main.name
   virtual_network_name = azurerm_virtual_network.main.name
   address_prefixes = ["10.0.1.0/24"]
-  service_endpoints = ["Microsoft.Storage", "Microsoft.KeyVault"]
+  service_endpoints = [
+    "Microsoft.Storage",
+    "Microsoft.KeyVault",
+    "Microsoft.Sql",
+    "Microsoft.EventHub",
+    "Microsoft.ServiceBus",
+    "Microsoft.AzureActiveDirectory"
+  ]
 }
 
 resource "azurerm_subnet" "internal_app" {
@@ -62,6 +69,14 @@ resource "azurerm_route_table" "dmz" {
     next_hop_type = "VirtualAppliance"
     next_hop_in_ip_address = azurerm_firewall.main.ip_configuration[0].private_ip_address
   }
+}
+
+resource "azurerm_route" "apim_control_plane" {
+  name = "apim-control-plane"
+  resource_group_name = azurerm_resource_group.main.name
+  route_table_name = azurerm_route_table.dmz.name
+  address_prefix = "ApiManagement.SoutheastAsia"
+  next_hop_type = "Internet"
 }
 
 resource "azurerm_route_table" "internal" {
@@ -150,6 +165,40 @@ resource "azurerm_network_security_group" "dmz" {
     destination_port_range = "3443"
     source_address_prefix = "*"
     destination_address_prefix = "*"
+  }
+  security_rule {
+    name = "AllowInboundHTTPSFromInternet"
+    priority = 200
+    direction = "Inbound"
+    access = "Allow"
+    protocol = "Tcp"
+    source_port_range = "*"
+    destination_port_range = "443"
+    source_address_prefix = "Internet"
+    destination_address_prefix = "VirtualNetwork"
+  }
+
+  security_rule {
+    name = "AllowInboundAPIMManagement"
+    priority = 210
+    direction = "Inbound"
+    access = "Allow"
+    protocol = "Tcp"
+    source_port_range = "*"
+    destination_port_range = "3443"
+    source_address_prefix = "ApiManagement"
+    destination_address_prefix = "VirtualNetwork"
+  }
+  security_rule {
+    name = "AllowOutboundResourceHealth"
+    priority = 220
+    direction = "Outbound"
+    access = "Allow"
+    protocol = "Tcp"
+    source_port_range = "*"
+    destination_port_range = "1886"
+    source_address_prefix = "*"
+    destination_address_prefix = "13.92.40.223"
   }
 }
 
