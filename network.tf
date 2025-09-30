@@ -207,3 +207,30 @@ resource "azurerm_subnet_network_security_group_association" "dmz" {
   subnet_id = azurerm_subnet.dmz.id
   network_security_group_id = azurerm_network_security_group.dmz.id
 }
+resource "azurerm_network_security_group" "internal_db" {
+  name = "nsg-internal-db"
+  location = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+
+  security_rule {
+    name = "AllowMySQLFromApp"
+    priority = 100
+    direction = "Inbound"
+    access = "Allow"
+    protocol = "Tcp"
+    source_address_prefix = azurerm_subnet.internal_app.address_prefixes[0]
+    destination_port_range = "3306"
+    destination_address_prefix = azurerm_subnet.internal_db.address_prefixes[0]
+    source_port_range = "*"
+  }
+}
+
+resource "azurerm_subnet_network_security_group_association" "internal_db" {
+  subnet_id                 = azurerm_subnet.internal_db.id
+  network_security_group_id = azurerm_network_security_group.internal_db.id
+}
+
+resource "azurerm_app_service_virtual_network_swift_connection" "webapp_vnet_integration" {
+  subnet_id = azurerm_subnet.internal_app.id
+  app_service_id = azurerm_app_service.webapp.id
+}
