@@ -248,7 +248,7 @@ resource "azurerm_firewall_application_rule_collection" "apim_management" {
     source_addresses = ["*"]
     protocol {
       type = "Https"
-      port = 3443
+      port = 443
     }
     target_fqdns = ["*.management.azure-api.net"]
   }
