@@ -61,7 +61,8 @@ jobs:
             -var "jwt_issuer=${{ secrets.TF_JWT_ISSUER }}" \
             -var "allowed_origins=${{ secrets.TF_ALLOWED_ORIGINS }}" \
             -var "application_insights_connection_string=${{ secrets.TF_APPLICATIONINSIGHTS_CONNECTION_STRING }}" \
-            -var "application_insights_instrumentation_key=${{ secrets.TF_APPINSIGHTS_INSTRUMENTATIONKEY }}"
+            -var "application_insights_instrumentation_key=${{ secrets.TF_APPINSIGHTS_INSTRUMENTATIONKEY }}" \
+            -var "email_smtp_password=${{ secrets.TF_EMAIL_SMTP_PASSWORD }}"
 
       - name: Terraform Apply
         env:
@@ -80,7 +81,8 @@ jobs:
             -var "jwt_issuer=${{ secrets.TF_JWT_ISSUER }}" \
             -var "allowed_origins=${{ secrets.TF_ALLOWED_ORIGINS }}" \
             -var "application_insights_connection_string=${{ secrets.TF_APPLICATIONINSIGHTS_CONNECTION_STRING }}" \
-            -var "application_insights_instrumentation_key=${{ secrets.TF_APPINSIGHTS_INSTRUMENTATIONKEY }}"
+            -var "application_insights_instrumentation_key=${{ secrets.TF_APPINSIGHTS_INSTRUMENTATIONKEY }}" \
+            -var "email_smtp_password=${{ secrets.TF_EMAIL_SMTP_PASSWORD }}"
 
       - name: Share outputs with app repos
         env:

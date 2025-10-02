@@ -159,3 +159,38 @@ variable "connection_string_names" {
   type        = list(string)
   default     = []
 }
+
+variable "email_smtp_host" {
+  description = "SMTP host for sending emails"
+  type        = string
+  default     = "smtp.sendgrid.net"
+}
+
+variable "email_smtp_port" {
+  description = "SMTP port for sending emails"
+  type        = string
+  default     = "587"
+}
+
+variable "email_smtp_username" {
+  description = "SMTP username for sending emails"
+  type        = string
+  default     = "hikingrentalstore@gmail.com"
+}
+
+variable "email_smtp_password" {
+  description = "SMTP password for sending emails"
+  type        = string
+}
+
+variable "email_from" {
+  description = "From email address for sending emails"
+  type        = string
+  default     = "hikingrentalstore@gmail.com"
+}
+
+variable "email_from_name" {
+  description = "From name for sending emails"
+  type        = string
+  default     = "Hiking Rental Store"
+}

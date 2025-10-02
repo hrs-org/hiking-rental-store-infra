@@ -61,6 +61,13 @@ resource "azurerm_linux_web_app" "api" {
     XDT_MicrosoftApplicationInsights_BaseExtensions = var.xdt_microsoft_application_insights_base_extensions
     XDT_MicrosoftApplicationInsights_Mode           = var.xdt_microsoft_application_insights_mode
     XDT_MicrosoftApplicationInsights_PreemptSdk     = var.xdt_microsoft_application_insights_preempt_sdk
+    Email__SmtpHost                                 = "smtp.gmail.com"
+    Email__SmtpPort                                 = "587"
+    Email__SmtpUsername                             = "<your_gmail_address>"
+    Email__SmtpPassword                             = "<your_gmail_app_password>"
+    Email__FromEmail                                = "<your_gmail_address>"
+    Email__FromName                                 = "Hiking Rental Store"
+    Email__FrontendUrl                              = azurerm_static_site.web.default_host_name
   }
 
   sticky_settings {
@@ -100,13 +107,5 @@ resource "azurerm_static_site" "web" {
   location            = "eastasia"
   sku_tier            = "Free"
   sku_size            = "Free"
-  tags                = var.common_tags
-}
-
-resource "azurerm_sendgrid_account" "main" {
-  name                = "sendgrid-${var.project}-${var.environment}"
-  resource_group_name = azurerm_resource_group.main.name
-  location            = azurerm_resource_group.main.location
-  sku_name            = "free"
   tags                = var.common_tags
 }
