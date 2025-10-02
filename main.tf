@@ -61,12 +61,12 @@ resource "azurerm_linux_web_app" "api" {
     XDT_MicrosoftApplicationInsights_BaseExtensions = var.xdt_microsoft_application_insights_base_extensions
     XDT_MicrosoftApplicationInsights_Mode           = var.xdt_microsoft_application_insights_mode
     XDT_MicrosoftApplicationInsights_PreemptSdk     = var.xdt_microsoft_application_insights_preempt_sdk
-    Email__SmtpHost                                 = "smtp.gmail.com"
-    Email__SmtpPort                                 = "587"
-    Email__SmtpUsername                             = "<your_gmail_address>"
-    Email__SmtpPassword                             = "<your_gmail_app_password>"
-    Email__FromEmail                                = "<your_gmail_address>"
-    Email__FromName                                 = "Hiking Rental Store"
+    Email__SmtpHost                                 = var.email_smtp_host
+    Email__SmtpPort                                 = var.email_smtp_port
+    Email__SmtpUsername                             = var.email_smtp_username
+    Email__SmtpPassword                             = var.email_smtp_password
+    Email__FromEmail                                = var.email_smtp_username
+    Email__FromName                                 = var.email_from_name
     Email__FrontendUrl                              = azurerm_static_site.web.default_host_name
   }
 
