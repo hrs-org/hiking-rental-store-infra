@@ -62,7 +62,9 @@ jobs:
             -var "allowed_origins=${{ secrets.TF_ALLOWED_ORIGINS }}" \
             -var "application_insights_connection_string=${{ secrets.TF_APPLICATIONINSIGHTS_CONNECTION_STRING }}" \
             -var "application_insights_instrumentation_key=${{ secrets.TF_APPINSIGHTS_INSTRUMENTATIONKEY }}" \
-            -var "email_smtp_password=${{ secrets.TF_EMAIL_SMTP_PASSWORD }}"
+            -var "email_smtp_password=${{ secrets.TF_EMAIL_SMTP_PASSWORD }}" \
+            -var "stripe_api_key=${{ secrets.TF_STRIPE_API_KEY }}" \
+            -var "payment_return_path=${{ secrets.TF_PAYMENT_RETURN_PATH }}"
 
       - name: Terraform Apply
         env:
@@ -82,7 +84,9 @@ jobs:
             -var "allowed_origins=${{ secrets.TF_ALLOWED_ORIGINS }}" \
             -var "application_insights_connection_string=${{ secrets.TF_APPLICATIONINSIGHTS_CONNECTION_STRING }}" \
             -var "application_insights_instrumentation_key=${{ secrets.TF_APPINSIGHTS_INSTRUMENTATIONKEY }}" \
-            -var "email_smtp_password=${{ secrets.TF_EMAIL_SMTP_PASSWORD }}"
+            -var "email_smtp_password=${{ secrets.TF_EMAIL_SMTP_PASSWORD }}" \
+            -var "stripe_api_key=${{ secrets.TF_STRIPE_API_KEY }}" \
+            -var "payment_return_path=${{ secrets.TF_PAYMENT_RETURN_PATH }}"
 
       - name: Share outputs with app repos
         env:
