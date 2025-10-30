@@ -163,7 +163,7 @@ variable "connection_string_names" {
 variable "email_smtp_host" {
   description = "SMTP host for sending emails"
   type        = string
-  default     = "smtp.sendgrid.net"
+  default     = "smtp.gmail.com"
 }
 
 variable "email_smtp_port" {
@@ -181,6 +181,7 @@ variable "email_smtp_username" {
 variable "email_smtp_password" {
   description = "SMTP password for sending emails"
   type        = string
+  sensitive   = true
 }
 
 variable "email_from" {
@@ -193,4 +194,16 @@ variable "email_from_name" {
   description = "From name for sending emails"
   type        = string
   default     = "Hiking Rental Store"
+}
+
+variable "stripe_api_key" {
+  description = "Stripe API Key"
+  type        = string
+  sensitive   = true
+}
+
+variable "payment_return_path" {
+  description = "Payment return path URL"
+  type        = string
+  sensitive   = true
 }

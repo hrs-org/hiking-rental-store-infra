@@ -19,6 +19,7 @@ app_setting_names = [
   "APPINSIGHTS_PROFILERFEATURE_VERSION",
   "APPINSIGHTS_SNAPSHOTFEATURE_VERSION",
   "APPLICATIONINSIGHTS_CONFIGURATION_CONTENT",
+  "APPLICATIONINSIGHTS_CONNECTION_STRING",
   "ApplicationInsightsAgent_EXTENSION_VERSION",
   "DiagnosticServices_EXTENSION_VERSION",
   "InstrumentationEngine_EXTENSION_VERSION",
@@ -26,7 +27,6 @@ app_setting_names = [
   "XDT_MicrosoftApplicationInsights_BaseExtensions",
   "XDT_MicrosoftApplicationInsights_Mode",
   "XDT_MicrosoftApplicationInsights_PreemptSdk",
-  "APPLICATIONINSIGHTS_CONNECTION_STRING",
   "XDT_MicrosoftApplicationInsightsJava",
   "XDT_MicrosoftApplicationInsights_NodeJS"
 ]

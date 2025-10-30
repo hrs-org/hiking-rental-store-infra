@@ -3,7 +3,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.100"
+      version = "~> 4.46.0"
     }
   }
   backend "azurerm" {
@@ -67,7 +67,9 @@ resource "azurerm_linux_web_app" "api" {
     Email__SmtpPassword                             = var.email_smtp_password
     Email__FromEmail                                = var.email_smtp_username
     Email__FromName                                 = var.email_from_name
-    Email__FrontendUrl                              = azurerm_static_site.web.default_host_name
+    FrontendUrl                                     = "https://${azurerm_static_site.web.default_host_name}"
+    Payment__Stripe__ApiKey                         = var.stripe_api_key
+    Payment__ReturnPath                             = var.payment_return_path
   }
 
   sticky_settings {
